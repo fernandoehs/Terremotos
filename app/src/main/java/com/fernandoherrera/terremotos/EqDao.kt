@@ -1,5 +1,6 @@
 package com.fernandoherrera.terremotos
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -14,7 +15,11 @@ interface EqDao {
     fun getTerremotosConMagnitud(mag: Double) : MutableList<Terremoto>
 
     @Delete
-    fun borrarTerremoto (vararg : Terremoto)
+    fun borrarTerremoto (vararg eq: Terremoto)
     @Update
-    fun actualizarTerremoto(vararg: Terremoto)
+    fun actualizarTerremoto(vararg eq: Terremoto)
+
+    @Query("SELECT * FROM terremotos")
+    fun getTerremotosLV():LiveData<MutableList<Terremoto>>
+
 }

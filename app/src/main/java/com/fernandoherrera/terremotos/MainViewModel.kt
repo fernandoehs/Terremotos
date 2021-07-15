@@ -1,21 +1,18 @@
 package com.fernandoherrera.terremotos
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 
-class MainViewModel:ViewModel() {
+class MainViewModel(application: Application) :AndroidViewModel(application) {
     //se crea la coroutine  vieja opcion
 //    private val  job = Job()
 //    private val coroutinaScope = CoroutineScope(Dispatchers.Main + job)
-
+    private val database = getDatabase(application)
     private var _eqList = MutableLiveData<MutableList<Terremoto>>()
     val eqList: LiveData<MutableList<Terremoto>>
         get()= _eqList
-    private val repository = MainRepository()
+    private val repository = MainRepository(database)
 
     init {
         viewModelScope.launch {

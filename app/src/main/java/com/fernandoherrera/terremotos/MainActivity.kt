@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         binding.eqReciclador.adapter = adapter
 
         //63
-        val viewModel : MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val viewModel : MainViewModel = ViewModelProvider(this,
+            MainViewModelFactory(application)).get(MainViewModel::class.java)
 
         viewModel.eqList.observe(this, Observer {eqList -> adapter.submitList(eqList)
             //muestra aviso cuando esta vacia

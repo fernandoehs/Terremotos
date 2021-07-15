@@ -3,13 +3,17 @@ package com.fernandoherrera.terremotos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainRepository {
+class MainRepository (private val database:EqDatabase) {
      suspend  fun fetchTerremotos(): MutableList<Terremoto>{
         return withContext(Dispatchers.IO){
 
             val eqJsonResponse = service.getLastTerremoto()
             var eqList = parseEqResult(eqJsonResponse)
-            eqList
+
+            database.eqDao.insertAll(eqList)//guarda en la base de datos
+
+            val terremotos: MutableList<Terremoto> = database.eqDao.getTerremotos() //devuelve lo q esta en bd
+            terremotos
             // Log.d("manzana",eqJsonResponse)
             // mutableListOf<Terremoto>()
 //        val eqList = mutableListOf<Terremoto>()
