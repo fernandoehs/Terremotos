@@ -1,10 +1,13 @@
 package com.fernandoherrera.terremotos
 
+import androidx.lifecycle.LiveDataScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MainRepository (private val database:EqDatabase) {
-     suspend  fun fetchTerremotos(): MutableList<Terremoto>{
+
+    val eqList: LiveDataScope<MutableList<Terremoto>> = database.eqDao.getTerremotos()
+     suspend  fun fetchTerremotos(){
         return withContext(Dispatchers.IO){
 
             val eqJsonResponse = service.getLastTerremoto()
@@ -12,8 +15,8 @@ class MainRepository (private val database:EqDatabase) {
 
             database.eqDao.insertAll(eqList)//guarda en la base de datos
 
-            val terremotos: MutableList<Terremoto> = database.eqDao.getTerremotos() //devuelve lo q esta en bd
-            terremotos
+//            val terremotos: MutableList<Terremoto> = database.eqDao.getTerremotos() //devuelve lo q esta en bd
+//            terremotos
             // Log.d("manzana",eqJsonResponse)
             // mutableListOf<Terremoto>()
 //        val eqList = mutableListOf<Terremoto>()

@@ -1,6 +1,6 @@
 package com.fernandoherrera.terremotos
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataScope
 import androidx.room.*
 
 @Dao
@@ -20,6 +20,6 @@ interface EqDao {
     fun actualizarTerremoto(vararg eq: Terremoto)
 
     @Query("SELECT * FROM terremotos")
-    fun getTerremotosLV():LiveData<MutableList<Terremoto>>
+    fun getTerremotosLV():LiveDataScope<MutableList<Terremoto>>
 
 }
